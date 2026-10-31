@@ -55,13 +55,13 @@ Events use push: each immutable event carries its type, district, and message to
 
 ## Visitor design
 
-The Composite tree has `City`, `District`, and five asset types. Visitors perform the tree traversal. The operations calculate maintenance cost, count elements, filter expensive assets, count high-cost assets, and export nested JSON. Element objects only store names, IDs, costs, and child lists.
+The Composite tree has `City`, `District`, and five asset types. Visitors perform the tree traversal, so element classes stay focused on their data and every operation controls its own walk. The operations calculate maintenance cost, count elements, filter expensive assets, count high-cost assets, and export nested JSON. Element objects only store names, IDs, costs, and child lists.
 
 Observer and Visitor are connected by `InspectionListener`. An air alert for its district runs the cost visitor on that district only. It publishes the result as a new inspection report event.
 
 ## Concurrency and tests
 
-The demo runs at least three producer tasks in an `ExecutorService` and waits for graceful completion. The stress test publishes 1,000 events from each of four threads and checks an exact total of 4,000. Tests also cover event routing, subscriptions, Visitor results, JSON nesting, and the Observer-Visitor integration.
+Main is the single composition root and supplies dependencies through constructors. The demo runs at least three producer tasks in an `ExecutorService` and waits for graceful completion. The stress test publishes 1,000 events from each of four threads and checks an exact total of 4,000. Tests also cover event routing, subscriptions, Visitor results, JSON nesting, and the Observer-Visitor integration.
 
 ## Trade-off commits
 
@@ -86,4 +86,5 @@ Commit `f98cd50` (`Add noise sensor and update visitors`) adds `NoiseSensor`. Ch
 This shows the cost of Visitor: each visitor must learn how to handle a new element type.
 
 The project has local commits for the required changes. The commits were created during this implementation session; add later progress commits over the required two-week period before submission if your instructor checks their dates.
+
 

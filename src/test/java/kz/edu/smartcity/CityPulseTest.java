@@ -90,22 +90,22 @@ class CityPulseTest {
     }
 
     @Test void airSourcePublishesAirAlert() {
-        AirQualitySource source = new AirQualitySource(); Counter observer = new Counter();
+        AirQualitySource source = new AirQualitySource(new EventHub()); Counter observer = new Counter();
         source.subscribe(EventTypes.AIR_ALERT, observer);
         source.report("Central", "High pollution");
         assertEquals(EventTypes.AIR_ALERT, observer.last.getType());
     }
 
     @Test void trafficSourcePublishesTrafficUpdate() {
-        TrafficSource source = new TrafficSource(); Counter observer = new Counter();
+        TrafficSource source = new TrafficSource(new EventHub()); Counter observer = new Counter();
         source.subscribe(EventTypes.TRAFFIC_UPDATE, observer);
         source.report("North", "Slow traffic");
         assertEquals(EventTypes.TRAFFIC_UPDATE, observer.last.getType());
     }
 
     @Test void aggregatorActsAsObserverAndSubject() {
-        AirQualitySource source = new AirQualitySource();
-        DistrictAggregator aggregator = new DistrictAggregator(); Counter dashboard = new Counter();
+        AirQualitySource source = new AirQualitySource(new EventHub());
+        DistrictAggregator aggregator = new DistrictAggregator(new EventHub()); Counter dashboard = new Counter();
         source.subscribe(EventTypes.AIR_ALERT, aggregator);
         aggregator.subscribe(EventTypes.CITY_SUMMARY, dashboard);
         source.report("Central", "High pollution");
@@ -114,8 +114,8 @@ class CityPulseTest {
     }
 
     @Test void aggregatorCountsEventsFromTwoSources() {
-        AirQualitySource air = new AirQualitySource(); TrafficSource traffic = new TrafficSource();
-        DistrictAggregator aggregator = new DistrictAggregator();
+        AirQualitySource air = new AirQualitySource(new EventHub()); TrafficSource traffic = new TrafficSource(new EventHub());
+        DistrictAggregator aggregator = new DistrictAggregator(new EventHub());
         air.subscribe(EventTypes.AIR_ALERT, aggregator);
         traffic.subscribe(EventTypes.TRAFFIC_UPDATE, aggregator);
         air.report("Central", "High pollution"); traffic.report("North", "Slow traffic");
@@ -156,7 +156,7 @@ class CityPulseTest {
     }
 
     @Test void airEventInspectsOnlyMatchingDistrictAndPublishesReport() {
-        AirQualitySource air = new AirQualitySource(); EventHub reports = new EventHub(); Counter report = new Counter();
+        AirQualitySource air = new AirQualitySource(new EventHub()); EventHub reports = new EventHub(); Counter report = new Counter();
         District central = city().getDistricts().get(0);
         air.subscribe(EventTypes.AIR_ALERT, new InspectionListener(central, new MaintenanceCostVisitor(), reports));
         reports.subscribe(EventTypes.INSPECTION_REPORT, report);
@@ -200,5 +200,6 @@ class CityPulseTest {
         assertEquals(4000, observer.count.get());
     }
 }
+
 
 

@@ -11,7 +11,7 @@ final class EventTypes {
 }
 
 abstract class CitySource implements Subject<CityEvent> {
-    private final EventHub hub = new EventHub();
+    private final EventHub hub;`r`n    protected CitySource(EventHub hub) { this.hub = hub; }
     protected void send(String type, String district, String message) {
         hub.publish(new CityEvent(type, district, message));
     }
@@ -20,17 +20,17 @@ abstract class CitySource implements Subject<CityEvent> {
     @Override public void publish(CityEvent event) { hub.publish(event); }
 }
 
-final class AirQualitySource extends CitySource {
+final class AirQualitySource extends CitySource {`r`n    AirQualitySource(EventHub hub) { super(hub); }
     void report(String district, String reading) { send(EventTypes.AIR_ALERT, district, reading); }
 }
 
-final class TrafficSource extends CitySource {
+final class TrafficSource extends CitySource {`r`n    TrafficSource(EventHub hub) { super(hub); }
     void report(String district, String reading) { send(EventTypes.TRAFFIC_UPDATE, district, reading); }
 }
 
 final class DistrictAggregator implements Observer<CityEvent>, Subject<CityEvent> {
-    private final EventHub output = new EventHub();
-    private final AtomicInteger receivedEvents = new AtomicInteger();
+    private final EventHub output;
+    private final AtomicInteger receivedEvents = new AtomicInteger();`r`n`r`n    DistrictAggregator(EventHub output) { this.output = output; }
 
     @Override public void update(CityEvent event) {
         int total = receivedEvents.incrementAndGet();
@@ -81,3 +81,4 @@ final class InspectionListener implements Observer<CityEvent> {
         }
     }
 }
+

@@ -27,9 +27,9 @@ public class Main {
         System.out.println("Element count: " + city.accept(new ElementCountVisitor()));
         System.out.println("JSON: " + city.accept(new JsonExportVisitor()));
 
-        AirQualitySource air = new AirQualitySource();
-        TrafficSource traffic = new TrafficSource();
-        DistrictAggregator aggregator = new DistrictAggregator();
+        AirQualitySource air = new AirQualitySource(new EventHub());
+        TrafficSource traffic = new TrafficSource(new EventHub());
+        DistrictAggregator aggregator = new DistrictAggregator(new EventHub());
         DashboardListener dashboard = new DashboardListener();
         AlertListener alerts = new AlertListener();
         StatisticsListener statistics = new StatisticsListener();
@@ -78,3 +78,4 @@ public class Main {
         System.out.println("Aggregated source events: " + aggregator.getReceivedEvents());
     }
 }
+

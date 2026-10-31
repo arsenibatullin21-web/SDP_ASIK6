@@ -152,7 +152,7 @@ class CityPulseTest {
         assertTrue(json.startsWith("{\"type\":\"City\""));
         assertTrue(json.contains("\"districts\":[{\"type\":\"District\""));
         assertTrue(json.contains("\"assets\":[{\"type\":\"AirQualityMonitor\""));
-        assertTrue(json.endsWith("]}]"));
+        assertTrue(json.endsWith("]}"));
     }
 
     @Test void airEventInspectsOnlyMatchingDistrictAndPublishesReport() {
@@ -200,4 +200,5 @@ class CityPulseTest {
         assertEquals(4000, observer.count.get());
     }
 }
+
 

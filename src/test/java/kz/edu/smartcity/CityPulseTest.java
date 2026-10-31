@@ -200,3 +200,4 @@ class CityPulseTest {
         assertEquals(4000, observer.count.get());
     }
 }
+

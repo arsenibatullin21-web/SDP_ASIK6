@@ -8,6 +8,45 @@ Open `Main.java` in IntelliJ and run it. The default uses three producer threads
 
 Run tests with `mvn test`.
 
+## UML class diagram
+
+```mermaid
+classDiagram
+    class Subject
+    class Observer
+    class EventHub
+    class CityEvent
+    class DistrictAggregator
+    class CityListener
+    class InspectionListener
+    Subject <|.. EventHub
+    Subject <|.. DistrictAggregator
+    Observer <|.. DistrictAggregator
+    Observer <|.. CityListener
+    Observer <|.. InspectionListener
+    EventHub --> CityEvent
+    class CityElement
+    class Visitor
+    class City
+    class District
+    class CityAsset
+    class AirQualityMonitor
+    class TrafficCamera
+    class WaterSensor
+    class StreetLight
+    class NoiseSensor
+    CityElement <|.. City
+    CityElement <|.. District
+    CityElement <|.. CityAsset
+    City --> District : contains
+    District --> CityAsset : contains
+    CityElement ..> Visitor : accept
+    Visitor <|.. MaintenanceCostVisitor
+    Visitor <|.. ElementCountVisitor
+    Visitor <|.. AssetFilterVisitor
+    Visitor <|.. JsonExportVisitor
+    Visitor <|.. HighCostVisitor
+```
 ## Observer design
 
 `AirQualitySource` and `TrafficSource` publish immutable `CityEvent` objects. The generic `Subject<E>` and `Observer<E>` interfaces allow different event subjects and listeners. Five named listener types handle alerts, traffic, statistics, dashboard summaries, and reports. `DistrictAggregator` is both an observer and a subject. It counts received updates and republishes a city summary. A listener can subscribe or unsubscribe during its own update. `EventHub` uses concurrent collections so publishing does not lock the whole subject.
@@ -47,3 +86,4 @@ Commit `f98cd50` (`Add noise sensor and update visitors`) adds `NoiseSensor`. Ch
 This shows the cost of Visitor: each visitor must learn how to handle a new element type.
 
 The project has local commits for the required changes. The commits were created during this implementation session; add later progress commits over the required two-week period before submission if your instructor checks their dates.
+

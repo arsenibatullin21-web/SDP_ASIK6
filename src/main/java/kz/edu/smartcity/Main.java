@@ -19,7 +19,8 @@ public class Main {
                 new TrafficCamera("TC-1", "Traffic camera", 80)));
         District north = new District("North", Arrays.asList(
                 new WaterSensor("WS-1", "Water sensor", 30),
-                new StreetLight("SL-1", "Street light", 40)));
+                new StreetLight("SL-1", "Street light", 40),
+                new NoiseSensor("NS-1", "Noise sensor", 60)));
         City city = new City("Astana", Arrays.asList(central, north));
 
         System.out.println("Maintenance cost: " + city.accept(new MaintenanceCostVisitor()));

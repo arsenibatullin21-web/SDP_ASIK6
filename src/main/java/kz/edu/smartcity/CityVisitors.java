@@ -18,6 +18,7 @@ final class MaintenanceCostVisitor implements Visitor<Integer> {
     @Override public Integer visit(TrafficCamera asset) { return asset.getMonthlyCost(); }
     @Override public Integer visit(WaterSensor asset) { return asset.getMonthlyCost(); }
     @Override public Integer visit(StreetLight asset) { return asset.getMonthlyCost(); }
+    @Override public Integer visit(NoiseSensor asset) { return asset.getMonthlyCost(); }
 }
 
 final class ElementCountVisitor implements Visitor<Integer> {
@@ -36,6 +37,7 @@ final class ElementCountVisitor implements Visitor<Integer> {
     @Override public Integer visit(TrafficCamera asset) { count++; return count; }
     @Override public Integer visit(WaterSensor asset) { count++; return count; }
     @Override public Integer visit(StreetLight asset) { count++; return count; }
+    @Override public Integer visit(NoiseSensor asset) { count++; return count; }
 }
 
 final class AssetFilterVisitor implements Visitor<List<CityAsset>> {
@@ -58,6 +60,7 @@ final class AssetFilterVisitor implements Visitor<List<CityAsset>> {
     @Override public List<CityAsset> visit(TrafficCamera asset) { return addIfExpensive(asset); }
     @Override public List<CityAsset> visit(WaterSensor asset) { return addIfExpensive(asset); }
     @Override public List<CityAsset> visit(StreetLight asset) { return addIfExpensive(asset); }
+    @Override public List<CityAsset> visit(NoiseSensor asset) { return addIfExpensive(asset); }
 }
 
 final class JsonExportVisitor implements Visitor<String> {
@@ -92,6 +95,7 @@ final class JsonExportVisitor implements Visitor<String> {
     @Override public String visit(TrafficCamera asset) { return asset("TrafficCamera", asset); }
     @Override public String visit(WaterSensor asset) { return asset("WaterSensor", asset); }
     @Override public String visit(StreetLight asset) { return asset("StreetLight", asset); }
+    @Override public String visit(NoiseSensor asset) { return asset("NoiseSensor", asset); }
 }
 
 
@@ -115,4 +119,5 @@ final class HighCostVisitor implements Visitor<Integer> {
     @Override public Integer visit(TrafficCamera asset) { return check(asset); }
     @Override public Integer visit(WaterSensor asset) { return check(asset); }
     @Override public Integer visit(StreetLight asset) { return check(asset); }
+    @Override public Integer visit(NoiseSensor asset) { return check(asset); }
 }

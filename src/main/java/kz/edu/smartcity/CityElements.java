@@ -15,6 +15,7 @@ interface Visitor<R> {
     R visit(TrafficCamera asset);
     R visit(WaterSensor asset);
     R visit(StreetLight asset);
+    R visit(NoiseSensor asset);
 }
 
 final class City implements CityElement {
@@ -82,5 +83,10 @@ final class WaterSensor extends CityAsset {
 
 final class StreetLight extends CityAsset {
     StreetLight(String id, String name, int monthlyCost) { super(id, name, monthlyCost); }
+    @Override public <R> R accept(Visitor<R> visitor) { return visitor.visit(this); }
+}
+
+final class NoiseSensor extends CityAsset {
+    NoiseSensor(String id, String name, int monthlyCost) { super(id, name, monthlyCost); }
     @Override public <R> R accept(Visitor<R> visitor) { return visitor.visit(this); }
 }

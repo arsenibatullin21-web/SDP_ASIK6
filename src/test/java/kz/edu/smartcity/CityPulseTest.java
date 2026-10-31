@@ -171,6 +171,17 @@ class CityPulseTest {
         assertEquals(2, city().accept(new HighCostVisitor(50)));
     }
 
+    @Test void newNoiseSensorWorksWithEveryVisitor() {
+        District district = new District("East", Arrays.asList(
+                new NoiseSensor("NS-1", "Noise sensor", 60)));
+        City smallCity = new City("Astana", Arrays.asList(district));
+        assertEquals(60, smallCity.accept(new MaintenanceCostVisitor()));
+        assertEquals(3, smallCity.accept(new ElementCountVisitor()));
+        assertEquals(1, smallCity.accept(new AssetFilterVisitor(50)).size());
+        assertEquals(1, smallCity.accept(new HighCostVisitor(50)));
+        assertTrue(smallCity.accept(new JsonExportVisitor()).contains("NoiseSensor"));
+    }
+
     @Test void stressTestFourThreadsPublishExactlyFourThousandEvents() throws InterruptedException {
         EventHub hub = new EventHub(); Counter observer = new Counter();
         hub.subscribe(EventTypes.TRAFFIC_UPDATE, observer);

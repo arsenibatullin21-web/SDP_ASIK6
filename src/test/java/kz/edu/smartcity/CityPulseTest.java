@@ -167,6 +167,10 @@ class CityPulseTest {
         assertTrue(report.last.getMessage().contains("130"));
     }
 
+    @Test void highCostVisitorCountsMatchingAssets() {
+        assertEquals(2, city().accept(new HighCostVisitor(50)));
+    }
+
     @Test void stressTestFourThreadsPublishExactlyFourThousandEvents() throws InterruptedException {
         EventHub hub = new EventHub(); Counter observer = new Counter();
         hub.subscribe(EventTypes.TRAFFIC_UPDATE, observer);

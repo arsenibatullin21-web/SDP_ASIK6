@@ -93,3 +93,26 @@ final class JsonExportVisitor implements Visitor<String> {
     @Override public String visit(WaterSensor asset) { return asset("WaterSensor", asset); }
     @Override public String visit(StreetLight asset) { return asset("StreetLight", asset); }
 }
+
+
+final class HighCostVisitor implements Visitor<Integer> {
+    private final int minimumCost;
+    private int count;
+    HighCostVisitor(int minimumCost) { this.minimumCost = minimumCost; }
+    @Override public Integer visit(City city) {
+        for (District district : city.getDistricts()) district.accept(this);
+        return count;
+    }
+    @Override public Integer visit(District district) {
+        for (CityAsset asset : district.getAssets()) asset.accept(this);
+        return count;
+    }
+    private Integer check(CityAsset asset) {
+        if (asset.getMonthlyCost() >= minimumCost) count++;
+        return count;
+    }
+    @Override public Integer visit(AirQualityMonitor asset) { return check(asset); }
+    @Override public Integer visit(TrafficCamera asset) { return check(asset); }
+    @Override public Integer visit(WaterSensor asset) { return check(asset); }
+    @Override public Integer visit(StreetLight asset) { return check(asset); }
+}
